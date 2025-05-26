@@ -1,0 +1,120 @@
+function createNote() {
+    const noteContent = `
+    <textarea class="note-body-input" name="task" placeholder="Add your task here"></textarea>
+    <div class="date-actions-wrapper" style="display:none;">
+        <input  class="date-time-input" name="date&time" type="text" placeholder="Choose date&time">
+            <div class="buttons-wrapper">
+                <button class="sys-button note-btn delete-btn" aria-label="Delete note" data-action="delete">
+                    <i class="ph ph-x"></i>
+                </button>
+                <button class="sys-button note-btn save-btn" data-action="save" aria-label="Save note">
+                    <i class="ph ph-floppy-disk"></i>
+                </button>
+            </div>
+    </div>
+    <p class="note-hint">Done? Hit Enter to schedule</p>
+    `
+    const note = document.createElement('div');
+    note.className = 'note';
+    note.innerHTML = noteContent;
+
+    return note;
+};
+
+function setupNoteLogic(noteElement){
+    let state = 'initial';
+
+    const textarea = noteElement.querySelector('.note-body-input');
+    const dateAndTime = noteElement.querySelector('.date-time-input');
+    const dateTimeWrapper = noteElement.querySelector('.date-actions-wrapper');
+    const hint = noteElement.querySelector('.note-hint');
+
+    const saveButton = noteElement.querySelector('.save-btn');
+    const deleteButton = noteElement.querySelector('.delete-btn');
+    const saveIcon = saveButton.querySelector('i');
+    const deleteIcon = deleteButton.querySelector('i'); 
+
+    textarea.addEventListener("keydown", (e) => {
+        if(e.key === 'Enter' && !e.shiftKey && state === 'initial' && textarea.value.trim() !== ''){
+            e.preventDefault();
+            state = 'edit-date';
+            renderState();   
+        }
+    })
+
+    saveButton.addEventListener('click', () => {
+        const action =saveButton.dataset.action;
+
+        if(action === 'save'){
+            state = 'read-only';
+            saveButton.dataset.action = 'edit';
+            saveButton.setAttribute('aria-label', 'Edit note');
+            renderState();
+        } else if (action === 'edit'){
+            state ='edit-date';
+            saveButton.dataset.action = 'save';
+            saveButton.setAttribute('aria-label', 'Save note');
+            renderState();
+        }
+    })
+
+    deleteButton.addEventListener('click', () => {
+        const action = deleteButton.dataset.action;
+        const id = noteElement.dataset.id;
+
+        if(action === 'delete'){
+            noteElement.remove();
+            deleteNote(Number(id));
+        } else if (action === 'reset'){
+            textarea.value = '';
+            noteElement.querySelector('.date-time-input').value = '';
+            state = 'edit-date';
+            saveButton.dataset.action = 'save';
+            saveButton.setAttribute('aria-label', 'Save note');
+            renderState();
+        }
+    })
+
+    function renderState(){
+        if(state === 'initial'){
+            dateTimeWrapper.style.display = 'none';
+            hint.style.display = 'block';
+            textarea.focus();
+            textarea.removeAttribute('readonly');
+            deleteButton.dataset.action = 'delete';
+            deleteButton.setAttribute('aria-label', 'Delete note');
+        }
+
+        if(state === 'edit-date'){
+            dateTimeWrapper.style.display = 'flex';
+            hint.style.display = 'none';
+            textarea.focus();
+            dateAndTime.disabled = false;
+            textarea.removeAttribute('readonly');
+            deleteButton.dataset.action = 'delete';
+            deleteButton.setAttribute('aria-label', 'Delete note');
+            deleteIcon.classList.replace('ph-arrow-clockwise', 'ph-x');
+            saveIcon.classList.replace('ph-pencil-simple', 'ph-floppy-disk');
+        }
+
+        if(state === 'read-only'){
+            dateTimeWrapper.style.display = 'flex';
+            hint.style.display = 'none';
+            textarea.setAttribute('readonly', true);
+            dateAndTime.disabled = true;
+            deleteButton.dataset.action = 'reset';
+            deleteButton.setAttribute('aria-label', 'Reset note');
+            deleteIcon.classList.replace('ph-x', 'ph-arrow-clockwise');
+            saveIcon.classList.replace('ph-floppy-disk', 'ph-pencil-simple');
+        }
+    }
+
+    flatpickr(".date-time-input", {
+    enableTime: true,
+    dateFormat: "d/m/y H:i",
+    time_24hr: true,    
+    });
+
+    renderState();
+}
+

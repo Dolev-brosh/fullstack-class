@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/regular/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/bold/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Special+Gothic+Expanded+One&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="dashboard">
+        <nav class="sidebar">
+            <img id="logo" src="/imgs/logo.svg" alt="tasknote logo">
+            <div class="add-note-menu-wrapper">
+                <div id="note-menu" class="note-menu">
+                    <button class="color-btn" id="color-1"></button>
+                    <button class="color-btn" id="color-2"></button>
+                    <button class="color-btn" id="color-3"></button>
+                    <button class="color-btn" id="color-4"></button>
+                    <button class="color-btn" id="color-5"></button>
+                </div>
+                <button class="sys-button" id="add-note-btn" aria-label="Add new note">
+                    <i class="ph-bold ph-plus" id="add-note-btn-icon"></i>
+                </button>
+            </div>
+        </nav>
+        <div class="task-area">
+            <div class="search-box">
+                <i id="search-icon" class="ph ph-magnifying-glass"></i>
+                <input id="search-input" type="search" placeholder="Search note" aria-label="Search Field">
+            </div>
+            <div class="heading">
+                <h1 id="header">Tasks</h1>
+                <button class="sys-button" id="delete-all-btn">Delete All</button>
+            </div>
+            <div class="notes-area" id="notes-area">
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="/createNotes.js"></script>
+    <script src="/index.js"></script>
+    
+</body>
+
+</html>
+
+
