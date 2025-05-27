@@ -3,20 +3,33 @@ const noteMenu = document.getElementById('note-menu');
 const noteBtn = document.querySelectorAll('.color-btn');
 const notesContainer = document.getElementById('notes-area');
 
-
 addNoteBtn.addEventListener("click", ()=> {
     noteMenu.classList.toggle("show");
 })
 
+let currentLogoColor = '#FE9B72';
 
+function  updateSvgPathsColor(newColor){
+    const svg = document.getElementById('logo');
+    if(!svg) return;
+    const paths = svg.querySelectorAll('path');
 
+    paths.forEach(path => {
+        if(path.getAttribute('fill') === currentLogoColor){
+            path.setAttribute('fill', `var(--${newColor})`);
+        }    
+    })
+
+    currentLogoColor = `var(--${newColor})`;
+}
 
 noteMenu.addEventListener('click', (e) => {
     const target = e.target;
 
     if(target.classList.contains('color-btn')){
         const colorClass = target.id;
-
+        
+        updateSvgPathsColor(colorClass);
         addNotes('', '', colorClass);
     }
 });
@@ -87,3 +100,4 @@ deleteAllBtn.addEventListener('click', () => {
     deleteAllNotes();
     
 });
+
