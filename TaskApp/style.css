@@ -217,7 +217,7 @@ input[type="search"]:focus{
 .notes-area{
     display: flex;
     justify-content: start;
-    align-items: start;
+    align-content: start;
     flex-wrap: wrap;
     gap: 3rem;
     overflow: auto;
