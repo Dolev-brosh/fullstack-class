@@ -1,5 +1,8 @@
 function createNote() {
     const noteContent = `
+    <button class="sys-button note-btn star-btn" aria-label="Delete note" data-action="star">
+        <i class="ph ph-star star-icon"></i>
+    </button>
     <textarea class="note-body-input" name="task" placeholder="Add your task here"></textarea>
     <div class="date-actions-wrapper" style="display:none;">
         <input  class="date-time-input" name="date&time" type="text" placeholder="Choose date&time">
@@ -31,8 +34,10 @@ function setupNoteLogic(noteElement){
 
     const saveButton = noteElement.querySelector('.save-btn');
     const deleteButton = noteElement.querySelector('.delete-btn');
+    const starButton = noteElement.querySelector('.star-btn');
     const saveIcon = saveButton.querySelector('i');
     const deleteIcon = deleteButton.querySelector('i'); 
+    const starIcon = starButton.querySelector('i');
 
     textarea.addEventListener("keydown", (e) => {
         if(e.key === 'Enter' && !e.shiftKey && state === 'initial' && textarea.value.trim() !== ''){
@@ -41,6 +46,46 @@ function setupNoteLogic(noteElement){
             renderState();   
         }
     })
+
+    starButton.addEventListener('click', () => {
+            starIcon.classList.toggle('ph-fill');
+            if (starIcon.classList.contains('ph-fill')) {
+                triggerFloatingStars(starButton, 6);
+        }
+    })
+
+
+    function triggerFloatingStars(container, count = 50){
+        for (let i = 0; i < count; i++){
+            const star = document.createElement('i');
+            star.classList.add('ph-fill', 'ph-star', 'floating-star');
+
+            const size = Math.random() * 2.4 + 0.8;
+            const xOffset = (Math.random() * 80 + 'px');
+            const delay = Math.random() * 300;
+
+            const colors = ['#FEC971', '#FE9B72', '#00D4FE', '#E4EF8F', '#B693FD'];
+            
+            star.style.color = colors[Math.floor(Math.random()* colors.length)]
+            star.style.fontSize = `${size}rem`;
+            star.style.opacity = Math.random();
+            star.style.left = '50%';
+            star.style.top = '50%';
+            star.style.transform = 'translate(-50%, -30%)';
+            star.style.setProperty('--x', xOffset);
+            star.style.animationDelay = `${delay}ms`;
+
+            container.appendChild(star);
+
+            
+
+            setTimeout( () => {
+                star.remove();
+
+            }, 1000);
+
+        }
+    }
 
     saveButton.addEventListener('click', () => {
         const action =saveButton.dataset.action;
