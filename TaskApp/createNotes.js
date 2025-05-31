@@ -49,13 +49,14 @@ function setupNoteLogic(noteElement){
 
     starButton.addEventListener('click', () => {
             starIcon.classList.toggle('ph-fill');
+            starButton.classList.toggle('favorite');
             if (starIcon.classList.contains('ph-fill')) {
-                triggerFloatingStars(starButton, 6);
+                triggerFloatingStars(starButton, 10);
         }
     })
 
 
-    function triggerFloatingStars(container, count = 50){
+    function triggerFloatingStars(container, count = 10){
         for (let i = 0; i < count; i++){
             const star = document.createElement('i');
             star.classList.add('ph-fill', 'ph-star', 'floating-star');

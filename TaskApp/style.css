@@ -1,5 +1,7 @@
 :root{
     --body-background: #EEF0F4;
+    --active-button: #f1f1f1;
+    --active-button-hover: #f5f5f5;
     --dashboard-babckground: #fff;
     --primary-border: #dedede;
     --primary-action-background: #212121;
@@ -167,6 +169,66 @@ h1{
     font-size: 4rem;
     margin: 0;
     
+}
+
+.button-group{
+    border: 1px solid var(--primary-border);
+    border-radius: 0.8rem;
+    overflow: hidden;
+}
+
+.slider{
+    display: flex;
+    position: relative;
+}
+
+.slider::before{
+    content: '';
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: var(--before-left, 0);
+    width: var(--before-width, 0);
+    background-color: var(--active-button);
+    z-index: 0;
+    transition: all 0.2s linear;
+}
+
+.group-btn{
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-items: center;
+    font-family: "Inter", sans-serif;
+    border: none;
+    padding: 0.8rem 1.6rem;
+    color: var(--hint-text);
+    background-color: transparent;
+    font-size: 1.4rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+}
+
+.group-btn > i {
+    font-size: 1.4rem;
+    margin-right: 0.4rem;
+    margin-top: 0.2rem;
+}
+
+
+.group-btn.active{
+    background-color: var(--active-button);
+    color: var(--primary-text);  
+    transition-delay: 0.1s; 
+}
+
+.divider{
+    width: 1px;
+    height: 3.5rem;
+    background: var(--primary-border);
+    z-index: 1;
 }
 
 .heading{

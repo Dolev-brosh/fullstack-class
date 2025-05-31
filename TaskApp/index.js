@@ -2,6 +2,10 @@ const addNoteBtn = document.getElementById('add-note-btn');
 const noteMenu = document.getElementById('note-menu');
 const noteBtn = document.querySelectorAll('.color-btn');
 const notesContainer = document.getElementById('notes-area');
+const buttons = document.querySelectorAll('.group-btn');
+const slider = document.querySelector('.slider');
+const allButton = document.querySelector('.all');
+const favoriteButton = document.querySelector('.favorite');
 
 addNoteBtn.addEventListener("click", ()=> {
     noteMenu.classList.toggle("show");
@@ -33,6 +37,51 @@ noteMenu.addEventListener('click', (e) => {
         addNotes('', '', colorClass);
     }
 });
+
+function updateIndicator(activeBtn){
+    const btnRect = activeBtn.getBoundingClientRect();
+    const sliderRect = slider.getBoundingClientRect();
+
+    const left = btnRect.left -sliderRect.left;
+    const width = btnRect.width;
+
+    slider.style.setProperty('--before-left', `${left}px`);
+    slider.style.setProperty('--before-width', `${width}px`);
+
+    buttons.forEach(btn => btn.classList.remove('active'));
+    activeBtn.classList.add('active');
+}
+
+buttons.forEach(btn => {
+    btn.addEventListener('click', () => updateIndicator(btn));
+})
+
+updateIndicator(document.querySelector('.group-btn.active'));
+
+favoriteButton.addEventListener('click', () => {
+    const allNotes = document.querySelectorAll('.note');
+    allNotes.forEach(note => {
+        const starButton = note.querySelector('.star-btn');
+
+        if(!starButton.classList.contains('favorite')){
+            note.style.display = 'none';
+        } else {
+            note.style.display = '';
+        }
+    });
+})
+
+allButton.addEventListener('click', () => {
+    const allNotes = document.querySelectorAll('.note');
+
+    allNotes.forEach(note => {
+        
+        note.style.display = '';
+
+    });
+})
+
+
 
 function saveNoteToLocalStorage(noteArray){
     localStorage.setItem('notes', JSON.stringify(noteArray));
