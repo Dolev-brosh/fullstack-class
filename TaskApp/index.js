@@ -6,6 +6,7 @@ const buttons = document.querySelectorAll('.group-btn');
 const slider = document.querySelector('.slider');
 const allButton = document.querySelector('.all');
 const favoriteButton = document.querySelector('.favorite');
+const searchInput = document.getElementById('search-input');
 
 addNoteBtn.addEventListener("click", ()=> {
     noteMenu.classList.toggle("show");
@@ -81,7 +82,15 @@ allButton.addEventListener('click', () => {
     });
 })
 
+searchInput.addEventListener('input', () => {
+    const query = searchInput.value.toLowerCase();
+    const notes = document.querySelectorAll('.note');
 
+    notes.forEach(note => {
+        const text = note.querySelector('.note-body-input').value.toLowerCase();
+        note.style.display = text.includes(query) ? '' : 'none';
+    })
+})
 
 function saveNoteToLocalStorage(noteArray){
     localStorage.setItem('notes', JSON.stringify(noteArray));
